@@ -71,4 +71,4 @@ def create_new_blog(title,content,cover_image):
   else:
     raise FileExistsError("File already exists, please check the name again. Aborting now!")
 
-path_to_new_content = create_new_blog('Test_title', 'test content test content', '/jCircle128x128.png')
+path_to_new_content = create_new_blog('Test_title', 'test content test content', './jCircle128x128.png')
