@@ -37,3 +37,38 @@ with open(PATH_TO_BLOG/"index.html", 'w') as f:
   f.write(random_text_string)
 
 update_blog()
+
+import shutil
+def create_new_blog(title,content,cover_image):
+  cover_image = Path(cover_image)
+
+  # automatic file naming system
+  files = len(list(PATH_TO_CONTENT.glob("*.html")))
+  new_title = f"{files+1}.html"
+  path_to_new_content = PATH_TO_CONTENT/new_title
+
+  shutil.copy(conver_image, PATH_TO_CONTENT)
+
+  if not os.path.exists(path_to_new_content) :
+    # write new html file
+    with open(path_to_new_content, "w") as f:
+      f.write('<!DOCTYPE HTML>\n')
+      f.write("<html>\n")
+      f.write("<head>\n")
+      f.write(f"<title> {title} </title>\n")
+      f.write("</head>\n")
+
+      f.write("<body>\n")
+      f.write(f"<img src='{cover_image.name}' alt='Cover Image'> <br/>\n")
+      f.write(f"<h1>{title}</h1>\n")
+      # add new content by taking openai's \n and replacing them with breaks
+      f.write(content.replace("\n","<br />\n"))
+      f.write("</body>\n")
+      f.write("<html>\n")
+      print("Blog Created")
+      return path_to_new_content
+
+  else:
+    raise FileExistsError("File already exists, please check the name again. Aborting now!")
+
+path_to_new_content = create_new_blog('Test_title', 'test content test content', 'https://www.jonchristie.net/favicon.png')
