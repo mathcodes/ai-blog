@@ -47,7 +47,7 @@ def create_new_blog(title,content,cover_image):
   new_title = f"{files+1}.html"
   path_to_new_content = PATH_TO_CONTENT/new_title
 
-  shutil.copy(conver_image, PATH_TO_CONTENT)
+  shutil.copy(cover_image, PATH_TO_CONTENT)
 
   if not os.path.exists(path_to_new_content) :
     # write new html file
