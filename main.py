@@ -79,7 +79,7 @@ path_to_new_content = create_new_blog('Test_title', 'test content test content',
 
 from bs4 import BeautifulSoup as Soup
 
-with open(PATH_TO_BLOG / "index.html") as index:
+with open(PATH_TO_BLOG/"index.html") as index:
     soup = Soup(index.read())
 
     str(soup)
