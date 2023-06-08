@@ -4,11 +4,14 @@ from git import Repo
 from pathlib import Path
 import shutil
 from bs4 import BeautifulSoup as Soup
+import requests
+from PIL import Image
 
 # Set the API Key for OpenAI (If required)
-openai.api_key
+openai.api_key = os.getenv("OPENAI_API_KEY")
 # Set path for blog repository
 PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
+
 
 PATH_TO_CONTENT = PATH_TO_BLOG_REPO / "content"
 
@@ -117,17 +120,15 @@ try:
     response = openai.Completion.create(
         engine='text-davinci-003',
         prompt=create_prompt(title),
-        max_tokens=50,
+        max_tokens=1000,
         temperature=0.7
     )
 
-    # Note: In previous versions, 'text' was in response['choices'][0]
     blog_content = response['choices'][0]['text']
     print(blog_content)
 except Exception as e:
     print("There was an issue with the OpenAI API call:")
     print(e)
-
 def dalle2_prompt(title):
     prompt = f"3d clay abstract metaphor of {title}"
     return prompt
@@ -152,6 +153,7 @@ def save_image(image_url, file_name):
     else:
         print("Error downloading image!!")
     return image_res.status_code
+
 
 save_image(image_url, file_name="title2.png")
 
