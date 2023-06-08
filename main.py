@@ -118,7 +118,7 @@ try:
     response = openai.Completion.create(
         engine='text-davinci-003',
         prompt=create_prompt(title),
-        max_tokens=1000,
+        max_tokens=50,
         temperature=0.7
     )
 
@@ -136,3 +136,10 @@ def dalle2_prompt(title):
 image_prompt = dalle2_prompt(title)
 print(image_prompt)
 image_prompt
+
+response = openai.Image.create(prompt=image_prompt,
+                               n=1, size="1024x1024")
+
+image_url = response['data'][0]['url']
+print(image_url)
+image_url
