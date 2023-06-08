@@ -1,12 +1,14 @@
 import os
+import openai
 from git import Repo
 from pathlib import Path
 import shutil
 from bs4 import BeautifulSoup as Soup
 
 # Set the API Key for OpenAI (If required)
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
+# os.getenv("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")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+print(os.getenv("OPENAI_API_KEY"))
 # Set path for blog repository
 PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
@@ -98,3 +100,26 @@ def write_to_index(path_to_new_content):
 write_to_index(path_to_new_content)
 
 update_blog()
+
+def create_prompt(title):
+    prompt = """
+    Biography:
+    My name is Jon and I am a full stack instructor for coding.
+
+    Blog
+    Title: {}
+    tags: tech, frontend, backend, fullstack, webdevelopment
+    Summary: I talk about what the future of AI brings to Web Development
+    Full Text.""".format(title)
+    return prompt
+
+title = "The future of Web Development and AI"
+print(create_prompt(title))
+
+response = openai.Completion(engine='text-davinci-003',
+                             prompt=create_prompt(title),
+                             max_tokens=1000,
+                             temperature=0.7)
+
+blog_content = response['choices'][0]['text']
+printblog_content
