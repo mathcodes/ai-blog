@@ -60,7 +60,7 @@ def create_new_blog(title, content, cover_image):
 # Write the blog post link to index.html file
 def write_to_index(blog_filename):
     with open(PATH_TO_BLOG_REPO / 'index.html') as index:
-        soup = Soup(index.read())
+        soup = Soup(index.read(), features="lxml")
 
     # find all the links
     links = soup.find_all('a')
