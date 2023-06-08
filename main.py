@@ -121,4 +121,4 @@ response = openai.Completion(engine='text-davinci-003',
                              temperature=0.7)
 
 blog_content = response['choices'][0]['text']
-printblog_content
+print(blog_content)
