@@ -10,9 +10,7 @@ from bs4 import BeautifulSoup as Soup
 # Set path for blog repository
 PATH_TO_BLOG_REPO = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
-PATH_TO_BLOG = PATH_TO_BLOG_REPO.parent
-
-PATH_TO_CONTENT = PATH_TO_BLOG / "content"
+PATH_TO_CONTENT = PATH_TO_BLOG_REPO / "content"
 
 PATH_TO_CONTENT.mkdir(exist_ok=True, parents=True)
 
@@ -61,7 +59,7 @@ path_to_new_content = create_new_blog('Test_title', 'test content test content',
 update_blog()
 
 # Update index.html ---> Blog Posts
-with open(PATH_TO_BLOG/"index.html") as index:
+with open(PATH_TO_BLOG_REPO/"index.html") as index:
     soup = Soup(index.read(), features="lxml")
 
 print(str(soup))
