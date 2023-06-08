@@ -8,7 +8,7 @@ import requests
 from PIL import Image
 
 # Set the API Key for OpenAI (If required)
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "OPENAI_API_KEY"
 # Set path for blog repository
 PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
