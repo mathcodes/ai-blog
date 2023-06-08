@@ -97,7 +97,6 @@ def write_to_index(path_to_new_content):
 
 write_to_index(path_to_new_content)
 
-update_blog()
 
 def create_prompt(title):
     prompt = """
@@ -160,3 +159,7 @@ save_image(image_url, file_name="title2.png")
 # from PIL import Image
 Image.open("title2.png")
 print(Image.open("title2.png"))
+
+path_to_new_content= create_new_blog(title, blog_content, 'title2.png')
+write_to_index(path_to_new_content)
+update_blog()
