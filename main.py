@@ -72,3 +72,12 @@ def create_new_blog(title,content,cover_image):
     raise FileExistsError("File already exists, please check the name again. Aborting now!")
 
 path_to_new_content = create_new_blog('Test_title', 'test content test content', './jCircle128x128.png')
+
+# Index.html ---> Blog Posts
+
+from bs4 import BeautifulSoup as Soup
+with open(PATH_TO_BLOG/"index.html") as index:
+  soup = Soup(index.read())
+
+  str(soup)
+  print(str(soup))
