@@ -62,6 +62,7 @@ update_blog()
 
 # Update index.html ---> Blog Posts
 with open(PATH_TO_BLOG/"index.html") as index:
-    soup = Soup(index.read())
+    soup = Soup(index.read(), features="lxml")
 
+str(soup)
 print(soup.prettify())
