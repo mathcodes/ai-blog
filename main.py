@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as Soup
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Set path for blog repository
-PATH_TO_BLOG_REPO = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
+PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
 PATH_TO_CONTENT = PATH_TO_BLOG_REPO / "content"
 
