@@ -130,7 +130,7 @@ except Exception as e:
     print(e)
 
 def dalle2_prompt(title):
-    prompt = f"3d clay render showing {title}"
+    prompt = f"3d clay abstract metaphor of {title}"
     return prompt
 
 image_prompt = dalle2_prompt(title)
