@@ -143,3 +143,20 @@ response = openai.Image.create(prompt=image_prompt,
 image_url = response['data'][0]['url']
 print(image_url)
 image_url
+
+def save_image(image_url, file_name):
+    image_res = requests.get(image_url, stream = True)
+
+    if image_res.status_code == 200:
+        with open(file_name, 'wb') as f:
+            shutil.copyfileobj(image_res.raw, f)
+    else:
+        print("Error downloading image!!")
+    return image_res.status_code
+
+save_image(image_url, file_name="title2.png")
+
+# to open images directly in Jupyter notebook:
+# from PIL import Image
+Image.open("title2.png")
+print(Image.open("title2.png"))
