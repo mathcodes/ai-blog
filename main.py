@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup as Soup
 
 # Set the API Key for OpenAI (If required)
 
-print(openai.api_key)
+openai.api_key
 # Set path for blog repository
 PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
@@ -129,3 +129,16 @@ try:
 except Exception as e:
     print("There was an issue with the OpenAI API call:")
     print(e)
+
+def dalle2_prompt(title):
+    prompt = f"An abstract painting showing {title}"
+    return prompt
+
+image_prompt = dalle2_prompt(title)
+image_prompt
+print(image_prompt)
+
+response = openai.Image.create(prompt=image_prompt,
+                               n=1,size="1024x1024")
+image_url = response['data'][0]['url']
+print(image_url)
