@@ -115,11 +115,17 @@ def create_prompt(title):
 title = "The future of Web Development and AI"
 print(create_prompt(title))
 
-response = openai.Completion(engine='text-davinci-003',
-                             prompt=create_prompt(title),
-                             max_tokens=1000,
-                             temperature=0.7)
-print(response)
-blog_content = response['choices'][0]['text']
-print(response)
-print(blog_content)
+try:
+    response = openai.Completion.create(
+        engine='text-davinci-003',
+        prompt=create_prompt(title),
+        max_tokens=1000,
+        temperature=0.7
+    )
+
+    # Note: In previous versions, 'text' was in response['choices'][0]
+    blog_content = response['choices'][0]['text']
+    print(blog_content)
+except Exception as e:
+    print("There was an issue with the OpenAI API call:")
+    print(e)
