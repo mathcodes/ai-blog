@@ -119,7 +119,7 @@ response = openai.Completion(engine='text-davinci-003',
                              prompt=create_prompt(title),
                              max_tokens=1000,
                              temperature=0.7)
-
+print(response)
 blog_content = response['choices'][0]['text']
 print(response)
 print(blog_content)
