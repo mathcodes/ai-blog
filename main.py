@@ -6,7 +6,6 @@ import shutil
 from bs4 import BeautifulSoup as Soup
 
 # Set the API Key for OpenAI (If required)
-# os.getenv("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")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 print(os.getenv("OPENAI_API_KEY"))
 # Set path for blog repository
