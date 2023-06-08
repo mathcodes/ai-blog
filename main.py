@@ -128,3 +128,11 @@ try:
 except Exception as e:
     print("There was an issue with the OpenAI API call:")
     print(e)
+
+def dale2_prompt(title):
+    prompt = f"3d clay render showing {title}"
+    return prompt
+
+image_prompt = dalle2_prompt(title)
+print(image_prompt)
+image_prompt
