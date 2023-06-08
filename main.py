@@ -73,7 +73,7 @@ def check_for_duplicate_links(path_to_new_content, links):
     return content_path in urls
 # Write the blog post link to index.html file
 def write_to_index(path_to_new_content):
-    with open(PATH_TO_BLOG/'index.html') as index:
+    with open(PATH_TO_BLOG_REPO/'index.html') as index:
         soup = Soup(index.read())
 
     # find all the links and get the very last link
