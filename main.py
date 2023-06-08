@@ -64,3 +64,30 @@ with open(PATH_TO_BLOG_REPO/"index.html") as index:
 
 print(str(soup))
 print(soup.prettify())
+
+# Check for duplicate links
+def check_for_duplicate_links(path_to_new_content, links):
+    urls = [str(link.get("href")) for link in links] # [1.html, 2.html, 3.html]
+    content_path = str(Path(*path_to_new_content.parts[-2:]))
+    # blog you just created is going to be "../1.html"
+    return content_path in urls
+# Write the blog post link to index.html file
+def write_to_index(path_to_new_content):
+    with open(PATH_TO_BLOG/'index.html') as index:
+        soup = Soup(index.read())
+
+    # find all the links and get the very last link
+    links = soup.find_all('a')
+    last_link = links[-1]
+
+    if check_for_duplicate_links(path_to_new_content, links):
+        raise ValueError("Link already exists")
+
+    # Finding the path to the new content
+    link_to_new_blog = soup.new_tag("a",href=Path(*path_to_new_content.parts[-2:]))
+    # convert to a string and insert the last link right after that link to the new blog
+    link_to_new_blog.string = path_to_new_content.name.split('.')[0]
+    last_link.insert_after(link_to_new_blog)
+
+    with open(PATH_TO_BLOG/'index.html','w') as f:
+        f.write(str(soup.prettify(formatter='html')))
