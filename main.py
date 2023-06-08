@@ -44,7 +44,7 @@ def create_new_blog(title, content, cover_image):
         with open(path_to_new_content, "w") as f:
             f.write('<!DOCTYPE HTML>\n<html>\n<head>\n')
             f.write(f"<title> {title} </title>\n</head>\n<body>\n")
-            f.write(f"<img src='{cover_image.name}' alt='Cover Image'> <br/>\n")
+            f.write(f"<img src='{cover_image.name}' alt='Cover Image' style="'width:50%;'"> <br/>\n")
             f.write(f"<h1>{title}</h1>\n")
             # Add new content by taking openai's \n and replacing them with breaks
             f.write(content.replace("\n", "<br />\n"))
