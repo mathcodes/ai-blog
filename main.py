@@ -4,15 +4,18 @@ from git import Repo
 from pathlib import Path
 import shutil
 from bs4 import BeautifulSoup as Soup
+import requests
 
-# Set the API Key for OpenAI (If required)
-openai.api_key
+# Set the API Key for OpenAI
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 # Set path for blog repository
 PATH_TO_BLOG_REPO: Path = Path('/Users/jonchristie/Desktop/WEB_DEV_DOCS/CLONED_REPOS/ai-blog/')
 
 PATH_TO_CONTENT = PATH_TO_BLOG_REPO / "content"
 
 PATH_TO_CONTENT.mkdir(exist_ok=True, parents=True)
+
 
 # Create a function for updating the blog
 def update_blog(commit_message="Updates Blog"):
@@ -26,15 +29,16 @@ def update_blog(commit_message="Updates Blog"):
     origin = repo.remote(name="origin")
     origin.push()
 
+
+# Create a new blog
 def create_new_blog(title, content, cover_image):
     cover_image = Path(cover_image)
+    shutil.copy(cover_image, PATH_TO_CONTENT)
 
     # Automatic file naming system
     files = len(list(PATH_TO_CONTENT.glob("*.html")))
     new_title = f"{files + 1}.html"
     path_to_new_content = PATH_TO_CONTENT / new_title
-
-    shutil.copy(cover_image, PATH_TO_CONTENT)
 
     if not os.path.exists(path_to_new_content):
         # Write new HTML file
@@ -47,120 +51,86 @@ def create_new_blog(title, content, cover_image):
             f.write(content.replace("\n", "<br />\n"))
             f.write("</body>\n</html>\n")
             print("Blog Created")
-            return path_to_new_content
+            return new_title
 
     else:
         raise FileExistsError("File already exists, please check the name again. Aborting now!")
 
-# Create a new blog
-path_to_new_content = create_new_blog('Test_title', 'test content test content', './jCircle128x128.png')
-
-# Update the blog after creating the new blog
-update_blog()
-
-# Update index.html ---> Blog Posts
-with open(PATH_TO_BLOG_REPO/"index.html") as index:
-    soup = Soup(index.read(), features="lxml")
-
-print(str(soup))
-print(soup.prettify())
-
-# Check for duplicate links
-def check_for_duplicate_links(path_to_new_content, links):
-    urls = [str(link.get("href")) for link in links] # [1.html, 2.html, 3.html]
-    content_path = str(Path(*path_to_new_content.parts[-2:]))
-    # blog you just created is going to be "../1.html"
-    return content_path in urls
 
 # Write the blog post link to index.html file
-def write_to_index(path_to_new_content):
-    with open(PATH_TO_BLOG_REPO/'index.html') as index:
+def write_to_index(blog_filename):
+    with open(PATH_TO_BLOG_REPO / 'index.html') as index:
         soup = Soup(index.read())
 
     # find all the links
     links = soup.find_all('a')
 
-    if check_for_duplicate_links(path_to_new_content, links):
+    content_path = f"../{blog_filename}"
+    if content_path in [str(link.get("href")) for link in links]:
         raise ValueError("Link already exists")
 
     # Finding the path to the new content
-    link_to_new_blog = soup.new_tag("a",href=Path(*path_to_new_content.parts[-2:]))
-    link_to_new_blog.string = path_to_new_content.name.split('.')[0]
+    link_to_new_blog = soup.new_tag("a", href=content_path)
+    link_to_new_blog.string = blog_filename.split('.')[0]
 
     if len(links) == 0:  # if no links exist yet
         soup.body.append(link_to_new_blog)  # add the new link to the body
     else:  # if some links already exist
         links[-1].insert_after(link_to_new_blog)  # add the new link after the last one
 
-    with open(PATH_TO_BLOG_REPO/'index.html','w') as f:
+    with open(PATH_TO_BLOG_REPO / 'index.html', 'w') as f:
         f.write(str(soup.prettify(formatter='html')))
 
-write_to_index(path_to_new_content)
 
-update_blog()
-
-def create_prompt(title):
+# Generate a blog post using OpenAI's GPT-3
+def generate_blog_post(title):
     prompt = """
-    Biography:
-    My name is Jon and I am a full stack instructor for coding.
+        Biography:
+        My name is Jon and I am a full stack instructor for coding.
 
-    Blog
-    Title: {}
-    tags: tech, frontend, backend, fullstack, webdevelopment
-    Summary: I talk about what the future of AI brings to Web Development
-    Full Text.""".format(title)
-    return prompt
-
-title = "The future of Web Development and AI"
-print(create_prompt(title))
-
-try:
+        Blog
+        Title: {}
+        tags: tech, frontend, backend, fullstack, webdevelopment
+        Summary: I talk about what the future of AI brings to Web Development
+        Full Text.""".format(title)
     response = openai.Completion.create(
         engine='text-davinci-003',
-        prompt=create_prompt(title),
+        prompt=prompt,
         max_tokens=50,
         temperature=0.7
     )
+    return response.choices[0].text.strip()
 
-    # Note: In previous versions, 'text' was in response['choices'][0]
-    blog_content = response['choices'][0]['text']
-    print(blog_content)
-except Exception as e:
-    print("There was an issue with the OpenAI API call:")
-    print(e)
 
-def dalle2_prompt(title):
+# Generate an image using OpenAI's DALL-E
+def generate_image(title):
     prompt = f"3d clay abstract metaphor of {title}"
-    return prompt
+    response = openai.Image.create(prompt=prompt, n=1, size="1024x1024")
+    image_url = response['data'][0]['url']
+    return image_url
 
-image_prompt = dalle2_prompt(title)
-print(image_prompt)
-image_prompt
 
-response = openai.Image.create(prompt=image_prompt,
-                               n=1, size="1024x1024")
-
-image_url = response['data'][0]['url']
-print(image_url)
-image_url
-
+# Save image from URL
 def save_image(image_url, file_name):
-    image_res = requests.get(image_url, stream = True)
+    image_res = requests.get(image_url, stream=True)
 
     if image_res.status_code == 200:
         with open(file_name, 'wb') as f:
             shutil.copyfileobj(image_res.raw, f)
     else:
         print("Error downloading image!!")
-    return image_res.status_code
+    return file_name
 
-save_image(image_url, file_name="title2.png")
 
-# to open images directly in Jupyter notebook:
-# from PIL import Image
-Image.open("title2.png")
-print(Image.open("title2.png"))
+# Generate blog content and image
+title = "The future of Web Development and AI"
+blog_content = generate_blog_post(title)
+image_url = generate_image(title)
+image_filename = save_image(image_url, file_name="title2.png")
 
-path_to_new_content= create_new_blog(title, blog_content, 'title2.png')
-write_to_index(path_to_new_content)
+# Create new blog
+blog_filename = create_new_blog(title, blog_content, image_filename)
+
+# Update index and push to git
+write_to_index(blog_filename)
 update_blog()
