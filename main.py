@@ -91,3 +91,7 @@ def write_to_index(path_to_new_content):
 
     with open(PATH_TO_BLOG/'index.html','w') as f:
         f.write(str(soup.prettify(formatter='html')))
+
+    write_to_index(path_to_new_content)
+
+    update_blog()
