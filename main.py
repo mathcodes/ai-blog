@@ -129,16 +129,16 @@ try:
 except Exception as e:
     print("There was an issue with the OpenAI API call:")
     print(e)
-
-def dalle2_prompt(title):
-    prompt = f"An abstract painting showing {title}"
-    return prompt
-
-image_prompt = dalle2_prompt(title)
-image_prompt
-print(image_prompt)
-
-response = openai.Image.create(prompt=image_prompt,
-                               n=1,size="1024x1024")
-image_url = response['data'][0]['url']
-print(image_url)
+#
+# def dalle2_prompt(title):
+#     prompt = f"An abstract painting showing {title}"
+#     return prompt
+#
+# image_prompt = dalle2_prompt(title)
+# image_prompt
+# print(image_prompt)
+#
+# response = openai.Image.create(prompt=image_prompt,
+#                                n=1,size="1024x1024")
+# image_url = response['data'][0]['url']
+# print(image_url)
