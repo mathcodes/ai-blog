@@ -89,7 +89,7 @@ def write_to_index(path_to_new_content):
     link_to_new_blog.string = path_to_new_content.name.split('.')[0]
     last_link.insert_after(link_to_new_blog)
 
-    with open(PATH_TO_BLOG/'index.html','w') as f:
+    with open(PATH_TO_BLOG_REPO/'index.html','w') as f:
         f.write(str(soup.prettify(formatter='html')))
 
 write_to_index(path_to_new_content)
