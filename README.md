@@ -1,5 +1,7 @@
 # AI Blog Script
 
+#### This app automates the process of creating and updating a blog using AI-generated content and images. It leverages the OpenAI API for generating blog content and images, GitPython for managing the blog repository, and BeautifulSoup for manipulating HTML files.
+
 - Programming Languages and Technologies:
 [![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&style=for-the-badge)](https://www.python.org/) [![HTML](https://img.shields.io/badge/HTML-5-%23E34F26?logo=html5&style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/HTML) [![CSS](https://img.shields.io/badge/CSS-3-%231572B6?logo=css3&style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/CSS) [![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Notebook-%23F37626?logo=jupyter&style=for-the-badge)](https://jupyter.org/) [![Markdown](https://img.shields.io/badge/Markdown-1.0-%23000000?logo=markdown&style=for-the-badge)](https://daringfireball.net/projects/markdown/)
 
@@ -12,8 +14,6 @@
 - AI and Machine Learning:
 [![Language Model](https://img.shields.io/badge/Language%20Model-GPT--3.5-%23FFD54F?logo=openai&style=for-the-badge)](https://openai.com/) [![NLP](https://img.shields.io/badge/tech-NLP-%230075FF?logo=openai&style=for-the-badge)](https://en.wikipedia.org/wiki/Natural_language_processing) [![ML](https://img.shields.io/badge/tech-ML-%23FF6F00?logo=openai&style=for-the-badge)](https://en.wikipedia.org/wiki/Machine_learning) [![AI](https://img.shields.io/badge/tech-AI-%23239120?logo=openai&style=for-the-badge)](https://en.wikipedia.org/wiki/Artificial_intelligence)
 
-
-This script automates the process of creating and updating a blog using AI-generated content and images. It leverages the OpenAI API for generating blog content and images, GitPython for managing the blog repository, and BeautifulSoup for manipulating HTML files.
 
 ## Example Output:
 
