@@ -1,0 +1,4 @@
+openai
+GitPython
+beautifulsoup4
+requests

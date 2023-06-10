@@ -41,20 +41,27 @@ def create_new_blog(title, content, cover_image):
     path_to_new_content = PATH_TO_CONTENT / new_title
 
     if not os.path.exists(path_to_new_content):
-        # Write new HTML file
+    # Write new HTML file
         with open(path_to_new_content, "w") as f:
             f.write('<!DOCTYPE HTML>\n<html>\n<head>\n')
-            f.write(f"<title> {title} </title>\n</head>\n<body>\n")
-            f.write(f"<img src='{cover_image.name}' alt='Cover Image'> <br/>\n")
-            f.write(f"<h1>{title}</h1>\n")
-            # Add new content by taking openai's \n and replacing them with breaks
-            f.write(content.replace("\n", "<br />\n"))
+            f.write('<link rel="stylesheet" href="https://cdn.tailwindcss.com/2.2.16/tailwind.min.css">\n')  # Add Tailwind CSS stylesheet
+            f.write(f"<title>{title}</title>\n</head>\n<body>\n")
+            f.write(f'<div class="flex items-center justify-center h-screen">\n')  # Add flex container
+            f.write(f'<div class="flex flex-col max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">\n')  # Add card styling
+            f.write(f"<img src='{cover_image.name}' alt='Cover Image' style='width:30px;' class='flex'> <br/>\n")  # Apply image styling
+            f.write('<div class="px-6 py-4">\n')  # Add card content container
+            f.write(f"<h1 class='text-2xl font-bold mb-2'>Title:{title}</h1>\n")  # Apply heading styles
+            f.write(f"<div class='text-base leading-relaxed mb-4'>{content.replace('.', '.<br/>')}</div>\n")  # Apply paragraph styles
+            f.write('</div>\n')  # Close card content container
+            f.write('</div>\n')  # Close card styling
+            f.write('</div>\n')  # Close flex container
             f.write("</body>\n</html>\n")
             print("Blog Created")
             return new_title
 
     else:
         raise FileExistsError("File already exists, please check the name again. Aborting now!")
+
 
 
 # Write the blog post link to index.html file
