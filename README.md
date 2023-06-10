@@ -37,7 +37,7 @@ Before using the script, ensure that you have the following:
 git clone <repository-url>
 ```
 
-2. Set the environment variable:
+2. **IMPORTANT STEP!!!** Set the environment variable:
 
 ```bash
 export OPENAI_API_KEY=<your-api-key>
